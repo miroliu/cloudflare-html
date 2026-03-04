@@ -4,8 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页速度测试</title>
+    <title>网页速度测试 | Speed Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(0, 212, 255, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,32 +28,174 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: var(--dark);
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 40%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(2%, 2%) rotate(2deg);
+            }
+
+            66% {
+                transform: translate(-2%, -2%) rotate(-2deg);
+            }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: var(--secondary);
+            bottom: 20%;
+            right: 10%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 30px) scale(1.02);
+            }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 600px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 20, 0.95));
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 48px;
+            max-width: 520px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px var(--glow);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 2rem;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -46,86 +203,136 @@
 
         .subtitle {
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 30px;
-        }
-
-        .url-input-group {
-            margin-bottom: 30px;
-        }
-
-        .url-input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.45);
             font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Input Section */
+        .input-section {
+            margin-bottom: 32px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            opacity: 0.4;
         }
 
         .url-input {
             width: 100%;
-            padding: 14px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 18px 20px 18px 48px;
+            background: transparent;
+            border: none;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
             transition: all 0.3s ease;
         }
 
         .url-input:focus {
             outline: none;
-            border-color: #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
         .url-input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.25);
         }
 
+        /* Button */
         .test-btn {
             width: 100%;
-            padding: 16px;
+            padding: 18px 32px;
             border: none;
-            border-radius: 12px;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .test-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .test-btn:hover::before {
+            left: 100%;
         }
 
         .test-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.35);
         }
 
         .test-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
 
-        .test-btn.testing {
-            background: linear-gradient(90deg, #f59e0b, #ef4444);
+        .test-btn:disabled:hover::before {
+            left: -100%;
         }
 
+        .test-btn.testing {
+            background: linear-gradient(135deg, var(--accent), var(--danger));
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Results Section */
         .results {
-            margin-top: 30px;
+            margin-top: 36px;
             display: none;
+            animation: slideUp 0.5s ease;
         }
 
         .results.show {
             display: block;
-            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
 
             to {
@@ -134,71 +341,59 @@
             }
         }
 
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Score Card */
+        .score-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .result-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.95rem;
-        }
-
-        .result-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #00d4ff;
-        }
-
-        .result-value.good {
-            color: #10b981;
-        }
-
-        .result-value.medium {
-            color: #f59e0b;
-        }
-
-        .result-value.slow {
-            color: #ef4444;
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         }
 
         .score-ring {
-            width: 150px;
-            height: 150px;
-            margin: 20px auto;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 16px;
             position: relative;
         }
 
         .score-ring svg {
             transform: rotate(-90deg);
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
         }
 
         .score-ring circle {
             fill: none;
-            stroke-width: 10;
+            stroke-width: 8;
         }
 
         .score-ring .bg {
-            stroke: rgba(255, 255, 255, 0.1);
+            stroke: rgba(255, 255, 255, 0.05);
         }
 
         .score-ring .progress {
-            stroke: url(#gradient);
+            stroke: url(#scoreGradient);
             stroke-linecap: round;
-            stroke-dasharray: 408;
-            stroke-dashoffset: 408;
-            transition: stroke-dashoffset 1s ease;
+            stroke-dasharray: 377;
+            stroke-dashoffset: 377;
+            filter: drop-shadow(0 0 8px var(--primary));
         }
 
-        .score-text {
+        .score-ring-inner {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -209,27 +404,210 @@
         .score-number {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .score-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
         }
 
-        .loading-spinner {
+        .score-grade {
             display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-top: 8px;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .metric-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .metric-icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .metric-value.good {
+            color: var(--success);
+        }
+
+        .metric-value.medium {
+            color: var(--accent);
+        }
+
+        .metric-value.slow {
+            color: var(--danger);
+        }
+
+        /* Tips */
+        .tips {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 14px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        .tips-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* History */
+        .history {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .history-title {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-family: inherit;
+        }
+
+        .clear-btn:hover {
+            color: var(--danger);
+        }
+
+        .history-list {
+            max-height: 160px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .history-url {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 180px;
+        }
+
+        .history-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.85rem;
+        }
+
+        /* Loading Spinner */
+        .spinner {
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #fff;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-            vertical-align: middle;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -238,139 +616,173 @@
             }
         }
 
-        .tips {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 193, 7, 0.1);
-            border-radius: 8px;
-            border-left: 3px solid #ffc107;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
+        /* Responsive */
+        @media (max-width: 540px) {
+            .container {
+                padding: 32px 24px;
+            }
 
-        .history {
-            margin-top: 30px;
-        }
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .history-title {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .clear-history {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: color 0.3s;
-        }
-
-        .clear-history:hover {
-            color: #ef4444;
-        }
-
-        .history-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .history-item .url {
-            color: rgba(255, 255, 255, 0.5);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 200px;
-        }
-
-        .history-item .time {
-            color: #00d4ff;
-            font-weight: 500;
+            .orb {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>🚀 网页速度测试</h1>
-        <p class="subtitle">测量网页加载时间和性能指标</p>
+    <!-- Background Effects -->
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-        <div class="url-input-group">
-            <label for="urlInput">请输入要测试的网址</label>
-            <input type="url" id="urlInput" class="url-input" placeholder="https://example.com"
-                value="https://www.baidu.com">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+            </div>
+            <h1>Speed Test</h1>
+            <p class="subtitle">网页性能分析与测速工具</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                </svg>
+                <input type="url" id="urlInput" class="url-input" placeholder="输入网址开始测试，如: baidu.com" value="baidu.com">
+            </div>
         </div>
 
         <button id="testBtn" class="test-btn" onclick="startTest()">
-            开始测试
+            <svg class="btn-icon" viewBox="0 0 24 24">
+                <path
+                    d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" />
+            </svg>
+            开始测速
         </button>
 
+        <!-- Results -->
         <div class="results" id="results">
-            <div class="score-ring">
-                <svg viewBox="0 0 150 150">
-                    <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#00d4ff" />
-                            <stop offset="100%" style="stop-color:#7c3aed" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="bg" cx="75" cy="75" r="65" />
-                    <circle class="progress" id="scoreCircle" cx="75" cy="75" r="65" />
-                </svg>
-                <div class="score-text">
-                    <div class="score-number" id="scoreNumber">--</div>
-                    <div class="score-label">综合评分</div>
+            <!-- Score Card -->
+            <div class="score-card">
+                <div class="score-ring">
+                    <svg viewBox="0 0 140 140">
+                        <defs>
+                            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#7c3aed" />
+                            </linearGradient>
+                        </defs>
+                        <circle class="bg" cx="70" cy="70" r="60" />
+                        <circle class="progress" id="scoreCircle" cx="70" cy="70" r="60" />
+                    </svg>
+                    <div class="score-ring-inner">
+                        <div class="score-number" id="scoreNumber">--</div>
+                        <div class="score-label">分 数</div>
+                    </div>
+                </div>
+                <div class="score-grade" id="scoreGrade">等待测试</div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" />
+                        </svg>
+                        <span class="metric-label">DNS 解析</span>
+                    </div>
+                    <div class="metric-value" id="dnsTime">--</div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17 16l-4-4V8.82C14.16 8.4 15 7.3 15 6c0-1.66-1.34-3-3-3S9 4.34 9 6c0 1.3.84 2.4 2 2.82V12l-4 4H3v5h5v-3.05l4-4.2 4 4.2V21h5v-5h-4z" />
+                        </svg>
+                        <span class="metric-label">TCP 连接</span>
+                    </div>
+                    <div class="metric-value" id="tcpTime">--</div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" />
+                        </svg>
+                        <span class="metric-label">TTFB 首字节</span>
+                    </div>
+                    <div class="metric-value" id="ttfbTime">--</div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
+                        </svg>
+                        <span class="metric-label">DOM 加载</span>
+                    </div>
+                    <div class="metric-value" id="domTime">--</div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 8h2v8H9zm4 0h2v8h-2z" />
+                        </svg>
+                        <span class="metric-label">页面渲染</span>
+                    </div>
+                    <div class="metric-value" id="loadTime">--</div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z" />
+                        </svg>
+                        <span class="metric-label">响应大小</span>
+                    </div>
+                    <div class="metric-value" id="pageSize">--</div>
                 </div>
             </div>
 
-            <div class="result-item">
-                <span class="result-label">🌐 DNS 解析</span>
-                <span class="result-value" id="dnsTime">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">🔗 TCP 连接</span>
-                <span class="result-value" id="tcpTime">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">📡 TTFB (首字节)</span>
-                <span class="result-value" id="ttfbTime">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">📄 DOM 加载完成</span>
-                <span class="result-value" id="domTime">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">🎨 页面渲染完成</span>
-                <span class="result-value" id="loadTime">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">💾 页面大小</span>
-                <span class="result-value" id="pageSize">--</span>
-            </div>
-
+            <!-- Tips -->
             <div class="tips" id="tips">
-                建议优化提示将显示在这里
+                <div class="tips-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                    </svg>
+                    优化建议
+                </div>
+                <div id="tipsContent">开始测试后，这里会显示针对您网站的优化建议</div>
             </div>
         </div>
 
+        <!-- History -->
         <div class="history" id="historySection">
-            <div class="history-title">
-                <span>测试历史</span>
-                <button class="clear-history" onclick="clearHistory()">清空</button>
+            <div class="history-header">
+                <span class="history-title">测试记录</span>
+                <button class="clear-btn" onclick="clearHistory()">清空</button>
             </div>
             <div class="history-list" id="historyList"></div>
         </div>

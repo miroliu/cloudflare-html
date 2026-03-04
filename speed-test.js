@@ -25,14 +25,14 @@ function renderHistory() {
     const historyList = document.getElementById('historyList');
 
     if (history.length === 0) {
-        historyList.innerHTML = '<div style="color: rgba(255,255,255,0.3); text-align: center; padding: 20px;">暂无测试记录</div>';
+        historyList.innerHTML = '<div class="empty-state">暂无测试记录</div>';
         return;
     }
 
     historyList.innerHTML = history.map(item => `
         <div class="history-item">
-            <span class="url" title="${item.url}">${item.url}</span>
-            <span class="time">${item.time}ms</span>
+            <span class="history-url" title="${item.url}">${item.url}</span>
+            <span class="history-time">${item.time}ms</span>
         </div>
     `).join('');
 }
@@ -61,6 +61,15 @@ function getSpeedLevel(time) {
     if (time < 500) return { level: 'good', text: '优秀' };
     if (time < 1500) return { level: 'medium', text: '一般' };
     return { level: 'slow', text: '较慢' };
+}
+
+// 获取等级文字
+function getGradeText(score) {
+    if (score >= 90) return '卓越';
+    if (score >= 80) return '优秀';
+    if (score >= 70) return '良好';
+    if (score >= 60) return '一般';
+    return '待优化';
 }
 
 // 更新结果样式
@@ -124,7 +133,9 @@ function calculateScore(data) {
 function updateScoreRing(score) {
     const circle = document.getElementById('scoreCircle');
     const scoreNumber = document.getElementById('scoreNumber');
-    const circumference = 2 * Math.PI * 65;
+    const scoreGrade = document.getElementById('scoreGrade');
+    // r=60, circumference = 2 * PI * 60 = 377
+    const circumference = 2 * Math.PI * 60;
     const offset = circumference - (score / 100) * circumference;
 
     setTimeout(() => {
@@ -142,6 +153,9 @@ function updateScoreRing(score) {
         }
         scoreNumber.textContent = Math.round(current);
     }, 30);
+
+    // 更新等级文字
+    scoreGrade.textContent = getGradeText(score);
 }
 
 // 开始测试
@@ -167,13 +181,14 @@ async function startTest() {
 
     isTesting = true;
     testBtn.classList.add('testing');
-    testBtn.innerHTML = '<span class="loading-spinner"></span>正在测试...';
+    testBtn.innerHTML = '<span class="spinner"></span>正在测试...';
     testBtn.disabled = true;
     results.classList.remove('show');
 
-    // 重置分数圆环
-    document.getElementById('scoreCircle').style.strokeDashoffset = 408;
+    // 重置分数圆环 (r=60, circumference=377)
+    document.getElementById('scoreCircle').style.strokeDashoffset = 377;
     document.getElementById('scoreNumber').textContent = '--';
+    document.getElementById('scoreGrade').textContent = '测试中...';
 
     const startTime = performance.now();
 
@@ -240,7 +255,7 @@ async function startTest() {
         updateScoreRing(score);
 
         // 生成建议
-        document.getElementById('tips').innerHTML = generateTips(perfData);
+        document.getElementById('tipsContent').innerHTML = generateTips(perfData);
 
         // 保存历史
         saveHistory(url, Math.round(perfData.load));
@@ -254,7 +269,12 @@ async function startTest() {
     } finally {
         isTesting = false;
         testBtn.classList.remove('testing');
-        testBtn.innerHTML = '开始测试';
+        testBtn.innerHTML = `
+            <svg class="btn-icon" viewBox="0 0 24 24">
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+            </svg>
+            开始测速
+        `;
         testBtn.disabled = false;
     }
 }
